@@ -1,0 +1,21 @@
+<mat-drawer-container class="example-container" hasBackdrop="false" >
+    <mat-drawer #drawer mode="side" opened="true">
+       <div class="avatar">
+        <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=626&ext=jpg&ga=GA1.2.1427971418.1701791351&semt=ais" alt="profile">
+       </div>
+         <!-- Menu List -->
+    <mat-nav-list>
+        <a mat-list-item routerLink="dashboard">Dashboard</a>
+        <a mat-list-item routerLink="products">Products</a>
+        <a mat-list-item routerLink="users">Users</a>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+        <!-- navbar -->
+        <div class="navbar">
+            <button mat-raised-button (click)="drawer.toggle()"><mat-icon>reorder</mat-icon></button>
+        </div>
+        <!-- page -->
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

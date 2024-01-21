@@ -1,0 +1,27 @@
+<div class="navbar">
+    <div class="navbar-warp">
+        <div class="group-left">
+            <div class="logo">
+                ANTON
+            </div>
+            <div class="menu-bar">
+                <div *ngFor="let item of navbars">
+                    <a [routerLink]="item.link" routerLinkActive="active" class="menu-item">{{item.title}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="group-right">
+            <div class="setting-bar" *ngIf="user">
+                <div class="group-icon" *ngFor="let item of settings" >
+                    <mat-icon class="setting-item">{{item.icon}}</mat-icon>
+                    <div class="amount" *ngIf="item.icon === 'shopping_cart' && cart_amount > 0">{{cart_amount}}</div>
+                </div>
+                <button class="btn-logout" (click)="logOut()">Log Out</button>
+            </div>
+            <div class="auth-bar"  *ngIf="!user">
+                <button class="btn-signin" (click)="signIn()">Sign In</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+[
+    {"icon":"person_outline", "title":"account"},
+    {"icon":"search", "title":"search"},
+    {"icon":"favorite_border", "title":"favorite"},
+    {"icon":"shopping_cart", "title":"cart"},
+    {"icon":"notifications_none", "title":"notification"}
+]

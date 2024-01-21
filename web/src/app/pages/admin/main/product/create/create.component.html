@@ -1,0 +1,26 @@
+<form class="create-container" [formGroup]="prodForm" (ngSubmit)="onSubmit()">
+    <h3 class="title">Add Product</h3>
+    <div class="grop-file">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png" alt="image">
+        <input type="file">
+    </div>
+    <div class="grop-input">
+        <div class="row" >
+            <div class="input-name">
+                <!-- <label for="name">Name</label> -->
+                <input formControlName="Name" type="text" name="name" id="name" placeholder="Name" />
+                <small *ngIf="isSubmit && prodForm.get('Name').hasError('required')">required</small>
+            </div>
+            <div class="input-price">
+                <!-- <label for="price">Price</label> -->
+                <input formControlName="Price" type="number" name="price" id="price" placeholder="Price" />
+                <small *ngIf="isSubmit && prodForm.get('Price').hasError('required')">required</small>
+            </div>
+        </div>
+        <textarea formControlName="Description" id="description" name="description" rows="6" cols="50" placeholder="Description"></textarea>
+    </div>
+    <div class="group-btn">
+        <button class="btn-close" (click)="onClose()">Close</button>
+        <button class="btn-save" type="submit">Save</button>
+    </div>
+</form>

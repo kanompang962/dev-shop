@@ -1,0 +1,63 @@
+
+  [
+    {
+      "id": 1,
+      "brand": "MotoBike",
+      "model": "SpeedMaster 500",
+      "type": "Sport Bike",
+      "engine": {
+        "type": "V-twin",
+        "displacement": 500,
+        "horsepower": 120
+      },
+      "price": 8999.99,
+      "color": "Red",
+      "image": "https://images.pexels.com/photos/5313384/pexels-photo-5313384.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "description": "The MotoBike SpeedMaster 500 is a high-performance sport bike that combines style and power. With a powerful V-twin engine, sleek design, and vibrant red color, this bike is sure to turn heads on the road. Whether you're a seasoned rider or a beginner, the SpeedMaster 500 offers a thrilling riding experience."
+    },
+    {
+      "id": 2,
+      "brand": "RoadRider",
+      "model": "Cruiser X150",
+      "type": "Cruiser",
+      "engine": {
+        "type": "V6",
+        "displacement": 1500,
+        "horsepower": 110
+      },
+      "price": 10999.99,
+      "color": "Black",
+      "image": "https://images.pexels.com/photos/10981458/pexels-photo-10981458.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "description": "Experience the open road with the RoadRider Cruiser X150. This cruiser bike combines classic design with modern performance. The V6 engine provides a smooth and powerful ride, while the black color adds a touch of elegance to your cruising adventures."
+    },
+    {
+      "id": 3,
+      "brand": "AdventureCycle",
+      "model": "Explorer 300",
+      "type": "Adventure Bike",
+      "engine": {
+        "type": "Inline-4",
+        "displacement": 300,
+        "horsepower": 85
+      },
+      "price": 7499.99,
+      "color": "Blue",
+      "image": "https://images.pexels.com/photos/12845321/pexels-photo-12845321.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "description": "Embark on thrilling adventures with the AdventureCycle Explorer 300. This adventure bike is equipped with an Inline-4 engine, offering a perfect balance of power and agility. The blue color adds a sense of freedom to your off-road journeys."
+    },
+    {
+      "id": 4,
+      "brand": "UrbanRide",
+      "model": "CityCommuter 50",
+      "type": "Urban Bike",
+      "engine": {
+        "type": "Electric",
+        "power": "50 kW"
+      },
+      "price": 5999.99,
+      "color": "Green",
+      "image": "https://images.pexels.com/photos/10392257/pexels-photo-10392257.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "description": "Navigate city streets with ease on the UrbanRide CityCommuter 50. This electric urban bike is environmentally friendly and designed for city commuting. The green color adds a touch of freshness to your daily rides."
+    }
+  ]
+  

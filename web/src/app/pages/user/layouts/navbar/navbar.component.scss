@@ -1,0 +1,177 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+.navbar {
+    position: fixed;
+    top: 0;
+    background: #fff;
+    z-index: 999;
+    width: 100%;
+    height: 80px;
+
+    .navbar-warp {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+
+        .group-left {
+            display: flex;
+            align-items: center;
+            gap: 100px;
+
+            .logo {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 28px;
+                font-weight: 800;
+            }
+
+            .menu-bar{
+                display: flex;
+                gap: 20px;
+    
+                .menu-item {
+                    padding: 10px;
+                    color: black;
+                    text-decoration: none;
+                }
+                .menu-item:hover {
+                    opacity: 60%;
+                }
+                .menu-item.active {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .group-right {
+            .setting-bar {
+                display: flex;
+                align-items: center;
+                gap: 35px;
+
+                .group-icon {
+                    position: relative;
+
+                    .setting-item {
+                        transition: transform 0.3s ease-in-out;
+                        cursor: pointer;
+                    }
+                    .setting-item:hover {
+                        transform: scale(1.1);
+                    }
+    
+                    .amount {
+                        position: absolute;
+                        top: -12px;
+                        right: -12px;
+                        background: #dc2d2d;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 12px;
+                        color: #fff;
+                    }
+                }
+
+                .btn-logout{
+                    background: transparent;
+                    font-size: 16px;
+                    padding: 10px 15px;
+                    outline: none;
+                    border: none;
+                    cursor: pointer;
+                }
+
+            }
+
+            .auth-bar {
+                display: flex;
+                gap: 15px;
+
+                .btn-signin,.btn-signup{
+                    font-size: 16px;
+                    padding: 10px 15px;
+                    outline: none;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                .btn-signin {
+                    background: transparent;
+                }
+
+                .btn-signup {
+                    background: #000;
+                    color: #fff;
+                }
+            }
+        }
+
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .navbar {
+        width: 100%;
+        height: 90px;
+    
+        .navbar-warp {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+    
+            .group-left {
+                display: flex;
+                align-items: center;
+                gap: 60px;
+    
+                .logo {
+                    font-family: 'Orbitron', sans-serif;
+                    font-size: 18px;
+                    font-weight: 800;
+                }
+    
+                .menu-bar{
+                    display: flex;
+                    gap: 0px;
+                    font-size: 12px;
+        
+                    .menu-item {
+                        padding: 10px;
+                        color: black;
+                        text-decoration: none;
+
+                    }
+                    .menu-item:hover {
+                        opacity: 60%;
+                    }
+                    .menu-item.active {
+                        text-decoration: underline;
+                    }
+                }
+            }
+    
+            .group-right {
+                display: none;
+                .setting-bar {
+                    display: flex;
+                    gap: 35px;
+        
+                    .setting-item {
+                        transition: transform 0.3s ease-in-out;
+                        cursor: pointer;
+                    }
+                    .setting-item:hover {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+    
+        }
+    }
+}

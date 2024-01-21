@@ -1,0 +1,49 @@
+<div class="main">
+    <section class="hero">
+        <div class="grid-background">
+            <div class="image-warp">
+                <img src="https://images.pexels.com/photos/10392237/pexels-photo-10392237.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="">
+            </div>
+            
+        </div>
+        <div class="grid-details">
+            <div class="container1">
+                <div class="text">
+                    <p class="title1">TRIUMPH MOTORCYCLES</p>
+                    <p class="title2">COLLECTION</p>
+                </div>
+            </div>
+            <div class="container2">
+               <div class="text-description">
+                    <button>READ MORE</button>
+                    <p class="title">APPLICATION</p>
+                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur sapiente </p>
+                   <div class="price-details">
+                    <div class="price">$ 12.02</div>
+                    <div class="btn-buy">BUY NOW</div>
+                   </div>
+               </div>
+               <div class="image-description">
+                    <img src="https://img.freepik.com/free-vector/monochrome-classic-motorcycle-front-view-concept_225004-1243.jpg?size=626&ext=jpg&ga=GA1.1.1427971418.1701791351&semt=ais" alt="">
+               </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="products">
+        <div class="grid-products">
+            <div *ngFor="let item of products">
+                <div class="product-item" (click)="updateState()">
+                    <img [src]="item.image" alt="">
+                    <p>{{item.brand}}</p>
+                    <p class="description">{{item.description.slice(0,18)}}...</p>
+                </div>
+            </div>
+        </div>
+        <div class="grid-img">
+            <div class="image-warp">
+                <img src="https://images.pexels.com/photos/5368952/pexels-photo-5368952.jpeg?auto=compress&cs=tinysrgb&w=800" alt="">
+            </div>
+        </div>
+    </section>
+</div>

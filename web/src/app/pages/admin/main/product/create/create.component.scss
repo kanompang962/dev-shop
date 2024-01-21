@@ -1,0 +1,108 @@
+
+
+.create-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+
+    .grop-file {
+        width: 100%;
+        margin-bottom: 20px;
+        
+        img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+        }
+    }
+
+    .grop-input {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .row {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+
+            .input-name {
+                width: 80%;
+
+                label {
+                    margin-bottom: 6px;
+                }
+                input {
+                    width: 100%;
+                    padding: 8px;
+                    outline: none;
+                    border: 1px solid #d1d1d1;
+                    border-radius: 8px;
+                }
+            }
+            .input-price {
+                width: 20%;
+
+                label {
+                    margin-bottom: 6px;
+                }
+                input {
+                    width: 100%;
+                    padding: 8px;
+                    outline: none;
+                    border: 1px solid #d1d1d1;
+                    border-radius: 8px;
+                }
+            }
+        }
+
+        textarea {
+            padding: 8px;
+            outline: none;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+        }
+    }
+
+    .group-btn {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        justify-content: end;
+
+        .btn-save {
+            background: #13941e;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            width: 100%;
+            max-width: 100px;
+            outline: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;   
+        }
+
+        .btn-close {
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            width: 100%;
+            max-width: 100px;
+            outline: none;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+            cursor: pointer;   
+        }
+    }
+
+    small {
+        color: #f74d0f;
+    }
+}
