@@ -1,16 +1,46 @@
 // user.model.ts
 
 export class User {
-    id: number;
-    username: string;
-    email: string;
-  
-    // You can add more properties based on your requirements
-  
-    constructor(id: number, username: string, email: string) {
-      this.id = id;
-      this.username = username;
-      this.email = email;
-    }
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string;
+  FirstName: string;
+  LastName: string;
+  Img: string;
+  Email: string;
+  Username: string;
+  Password: string;
+  Role: number;
+  Active: boolean;
+
+  constructor(
+    ID: number,
+    CreatedAt: string,
+    UpdatedAt: string,
+    DeletedAt: string,
+    FirstName: string,
+    LastName: string,
+    Img: string,
+    Email: string,
+    Username: string,
+    Password: string,
+    Role: number,
+    Active: boolean
+  ) {
+    this.ID = ID;
+    this.CreatedAt = CreatedAt;
+    this.UpdatedAt = UpdatedAt;
+    this.DeletedAt = DeletedAt;
+    this.FirstName = FirstName;
+    this.LastName = LastName;
+    this.Img = Img;
+    this.Email = Email;
+    this.Username = Username;
+    this.Password = Password;
+    this.Role = Role;
+    this.Active = Active;
   }
+}
+
   

@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './admin.component';
-import { authGuard } from 'src/app/core/guard/auth-gurad.guard';
 import { DashboardComponent } from './main/dashboard/dashboard.component';
 import { ProductComponent } from './main/product/product.component';
 import { UserComponent } from './main/user/user.component';

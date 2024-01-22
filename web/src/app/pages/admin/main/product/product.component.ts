@@ -75,7 +75,8 @@ export class ProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        
+        this.sweetAlertService.showAlert('Success','Update Product Success')
+        this.fetchProducts();
       }
     });
   }

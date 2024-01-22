@@ -57,7 +57,7 @@ export class UpdateComponent implements OnInit {
         if (result.isConfirmed) {
           this.isSubmit = false;
           const formData = this.prodForm.value;
-          this.productsService.postProduct(formData).subscribe((res)=>{
+          this.productsService.update(this.data.id, formData).subscribe((res)=>{
             this.dialogRef.close(true);
           })
         }

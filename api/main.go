@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -45,7 +47,7 @@ func main() {
 		panic("failed to connect to database")
 	}
 
-	db.AutoMigrate(&Product{})
+	db.AutoMigrate(&Product{}, &User{})
 	fmt.Println("Database migration completed!")
 
 	// Setup Fiber
@@ -54,13 +56,152 @@ func main() {
 	// Use CORS middleware with default configuration
 	app.Use(cors.New())
 
-	// CRUD routes
-	// select all
+	//:::::::::::::::::::::: Auth ::::::::::::::::::::::\\
+	app.Post("/login", func(c *fiber.Ctx) error {
+		user := new(User)
+		err := c.BodyParser(user)
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		var existingUser User
+		result := db.Where("username = ?", user.Username).First(&existingUser)
+
+		if result.Error != nil {
+			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+				// User not found
+				return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+					"message": "Invalid credentials",
+				})
+			}
+
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": result.Error.Error(),
+			})
+		}
+
+		err2 := bcrypt.CompareHashAndPassword([]byte(existingUser.Password), []byte(user.Password))
+		if err2 != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Invalid credentials",
+			})
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "Login successful",
+			"user":    existingUser,
+		})
+	})
+
+	app.Post("/register", func(c *fiber.Ctx) error {
+		user := new(User)
+		err := c.BodyParser(user)
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		err2 := createUser(db, user)
+		if err2 != nil {
+			if err2.Error() == "Username already taken" {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"message": "Username already taken",
+				})
+			}
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
+	//:::::::::::::::::::::: User ::::::::::::::::::::::\\
+	app.Get("/users", func(c *fiber.Ctx) error {
+		return c.JSON(getUsers(db))
+	})
+
+	app.Get("/user/:id", func(c *fiber.Ctx) error {
+		id, err := strconv.Atoi(c.Params("id"))
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		user := getUser(db, id)
+		return c.JSON(user)
+	})
+
+	app.Post("/user", func(c *fiber.Ctx) error {
+		user := new(User)
+		err := c.BodyParser(user)
+		// file, err := c.FormFile("Img")
+
+		// if file != nil {
+
+		// 	if err != nil {
+		// 		return c.SendStatus(fiber.StatusBadRequest)
+		// 	}
+
+		// 	err = c.SaveFile(file, "uploads/images/"+file.Filename)
+
+		// 	if err != nil {
+		// 		return c.SendStatus(fiber.StatusInternalServerError)
+		// 	}
+		// 	product.Img = file.Filename
+		// }
+
+		if err != nil {
+			user.Img = ""
+		}
+
+		err2 := createUser(db, user)
+		if err2 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
+	app.Put("/user/:id", func(c *fiber.Ctx) error {
+		id, err1 := strconv.Atoi(c.Params("id"))
+		if err1 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		user := new(User)
+		err2 := c.BodyParser(user)
+		if err2 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		user.ID = uint(id)
+		err3 := updateUser(db, user)
+		if err3 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
+	app.Delete("/user/:id", func(c *fiber.Ctx) error {
+		id, err1 := strconv.Atoi(c.Params("id"))
+		if err1 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		err3 := deleteUser(db, id)
+		if err3 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
+	//:::::::::::::::::::::: Product ::::::::::::::::::::::\\
 	app.Get("/products", func(c *fiber.Ctx) error {
 		return c.JSON(getProducts(db))
 	})
 
-	// select id
 	app.Get("/product/:id", func(c *fiber.Ctx) error {
 		id, err := strconv.Atoi(c.Params("id"))
 		if err != nil {
@@ -70,7 +211,6 @@ func main() {
 		return c.JSON(product)
 	})
 
-	// create
 	app.Post("/product", func(c *fiber.Ctx) error {
 		product := new(Product)
 		err := c.BodyParser(product)
@@ -104,7 +244,6 @@ func main() {
 		})
 	})
 
-	// update
 	app.Put("/product/:id", func(c *fiber.Ctx) error {
 		id, err1 := strconv.Atoi(c.Params("id"))
 		if err1 != nil {
@@ -125,7 +264,6 @@ func main() {
 		})
 	})
 
-	// delete
 	app.Delete("/product/:id", func(c *fiber.Ctx) error {
 		id, err1 := strconv.Atoi(c.Params("id"))
 		if err1 != nil {
@@ -140,24 +278,19 @@ func main() {
 			"message": "success",
 		})
 	})
-
-	app.Post("/upload", func(c *fiber.Ctx) error {
-		file, err := c.FormFile("file")
-
-		if err != nil {
-			return c.SendStatus(fiber.StatusBadRequest)
-		}
-
-		err = c.SaveFile(file, "uploads/images/"+file.Filename)
-
-		if err != nil {
-			return c.SendStatus(fiber.StatusInternalServerError)
-		}
-
-		return c.JSON(fiber.Map{
-			"message": "File uploaded successfully",
-		})
-	})
+	// app.Post("/upload", func(c *fiber.Ctx) error {
+	// 	file, err := c.FormFile("file")
+	// 	if err != nil {
+	// 		return c.SendStatus(fiber.StatusBadRequest)
+	// 	}
+	// 	err = c.SaveFile(file, "uploads/images/"+file.Filename)
+	// 	if err != nil {
+	// 		return c.SendStatus(fiber.StatusInternalServerError)
+	// 	}
+	// 	return c.JSON(fiber.Map{
+	// 		"message": "File uploaded successfully",
+	// 	})
+	// })
 
 	app.Listen(":8080")
 
