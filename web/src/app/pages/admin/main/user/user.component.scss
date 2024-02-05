@@ -1,0 +1,27 @@
+
+
+.user-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .title {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .table-card {
+        background: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    
+        .container-filter {
+            display: flex;
+            gap: 10px;
+        }
+    }
+}

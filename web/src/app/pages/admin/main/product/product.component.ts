@@ -30,7 +30,12 @@ export class ProductComponent implements OnInit {
 
   displayedColumns: string[] = [ 'Name', 'CreatedAt', 'Description', 'Price', 'Management'];
   dataSource:any;
-  products:Product|any
+  products:Product[] = []
+  option = [
+    {value:1, label:'a'},
+    {value:2, label:'b'},
+    {value:3, label:'c'},
+  ]
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -91,6 +96,16 @@ export class ProductComponent implements OnInit {
         })
       }
     })
+  }
+
+  handleSearchChange(value: string): void {
+    console.log('Selected Value:', value);
+    // Handle the selected value as needed
+  }
+
+  handleSelectionChange(selectedValue: Event): void {
+    console.log('Selected Value:', selectedValue);
+    // Handle the selected value as needed
   }
 
 }

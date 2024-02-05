@@ -6,7 +6,8 @@
     gap: 16px;
 
     .title {
-  
+        font-size: 18px;
+        font-weight: 600;
     }
     
     .table-card {
@@ -18,9 +19,9 @@
         flex-direction: column;
         gap: 16px;
 
-        .header {
+        .container-filter {
             display: flex;
-            gap: 14px;
+            gap: 10px;
             // justify-content: space-between;
     
             .btn-reset {

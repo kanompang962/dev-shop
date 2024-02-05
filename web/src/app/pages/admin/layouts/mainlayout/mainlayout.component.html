@@ -1,19 +1,43 @@
 <mat-drawer-container class="example-container" hasBackdrop="false" >
+    <!-- sidebar -->
     <mat-drawer #drawer mode="side" opened="true">
-       <div class="avatar">
-        <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=626&ext=jpg&ga=GA1.2.1427971418.1701791351&semt=ais" alt="profile">
-       </div>
-         <!-- Menu List -->
-    <mat-nav-list>
-        <a mat-list-item routerLink="dashboard">Dashboard</a>
-        <a mat-list-item routerLink="products">Products</a>
-        <a mat-list-item routerLink="users">Users</a>
-      </mat-nav-list>
+         <div class="header">
+            <img class="logo" src="assets/logos/logo.svg" alt="">
+            <p class="title">dev shop</p>
+         </div>
+        <div class="list-container">
+            <div class="section">
+                <div class="list-item" routerLinkActive="active" routerLink="dashboard">
+                    <mat-icon>dashboard</mat-icon>
+                    <a>Dashboard</a>
+                </div>
+                <div class="list-item" routerLinkActive="active" routerLink="products">
+                    <mat-icon>loyalty</mat-icon>
+                    <a>Products</a>
+                </div>
+                <div class="list-item" routerLinkActive="active" routerLink="users">
+                    <mat-icon>people</mat-icon>
+                    <a>Users</a>
+                </div>
+            </div>
+            <div class="section">
+                <div class="list-item" routerLinkActive="active" routerLink="dashboard">
+                    <mat-icon>settings</mat-icon>
+                    <a>Settings</a>
+                </div>
+                <div class="list-item" routerLinkActive="active" routerLink="products">
+                    <mat-icon>info</mat-icon>
+                    <a>Help</a>
+                </div>
+            </div>
+        </div>
     </mat-drawer>
+    <!-- main -->
     <mat-drawer-content>
         <!-- navbar -->
         <div class="navbar">
-            <button mat-raised-button (click)="drawer.toggle()"><mat-icon>reorder</mat-icon></button>
+            <!-- <button mat-raised-button (click)="drawer.toggle()"><mat-icon>reorder</mat-icon></button> -->
+            <app-navbar (toggleDrawerEvent)="drawer.toggle()"></app-navbar>
         </div>
         <!-- page -->
         <router-outlet></router-outlet>

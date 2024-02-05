@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { NavbarComponent } from './layouts/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     DashboardComponent,
     MainlayoutComponent,
     CreateComponent,
-    UpdateComponent
+    UpdateComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,

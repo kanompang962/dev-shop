@@ -1,0 +1,8 @@
+<!-- shared-select.component.html -->
+
+<div class="group-input-select">
+    <select [(ngModel)]="selectedValue" (change)="onSelectionChange()">
+        <option value="undefined" disabled selected>Select an option</option>
+        <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+    </select>
+</div>

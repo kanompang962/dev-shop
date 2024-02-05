@@ -1,1 +1,47 @@
-<p>user works!</p>
+<div class="user-container">
+    <p class="title">Users</p>
+
+   <div class="table-card">
+        <div class="container-filter">
+            <app-search (searchEvent)="handleSearchChange($event)"></app-search>
+            <app-select [options]="option" [placehoder]="'Role'" (selectionChange)="handleSelectionChange($event)"></app-select>
+            <app-select [options]="option" [placehoder]="'Role'" (selectionChange)="handleSelectionChange($event)"></app-select>
+            <app-select [options]="option" [placehoder]="'Role'" (selectionChange)="handleSelectionChange($event)"></app-select>
+            <button class="btn-reset">Reset</button>
+            <button class="btn-add" (click)="createDialog()">Add Product</button>
+        </div>
+        <div class="table">
+            <table mat-table [dataSource]="dataSource" class="">
+                <!-- FirstName Column -->
+                <ng-container matColumnDef="FirstName">
+                <th mat-header-cell *matHeaderCellDef> First Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.FirstName}} </td>
+                </ng-container>
+                <!-- LastName Column -->
+                <ng-container matColumnDef="LastName">
+                <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.LastName}} </td>
+                </ng-container>
+                <!-- Username Column -->
+                <ng-container matColumnDef="Username">
+                <th mat-header-cell *matHeaderCellDef> Username </th>
+                <td mat-cell *matCellDef="let element"> {{element.Username}} </td>
+                </ng-container>
+                <!-- Management Column -->
+                <ng-container matColumnDef="Management">
+                <th mat-header-cell *matHeaderCellDef> Management </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <div class="management-icon">
+                        <mat-icon (click)="updateDialog(element.ID)">launch</mat-icon>
+                        <mat-icon (click)="deleteDialog(element.ID)">delete_outline</mat-icon>
+                    </div>
+                </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>    
+            <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>  
+        </div>
+   </div>
+</div>

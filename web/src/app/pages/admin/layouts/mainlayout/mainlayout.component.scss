@@ -2,20 +2,61 @@
 
 .example-container {
     display: flex;
-    height: 100vh; // Adjust the height based on your layout requirements
-  
-    // Style the mat-drawer
+    height: 100vh;
+    
     .mat-drawer {
-      width: 200px; // Adjust the width based on your preference
+      width: 200px;
+      background: #000;
       
-      .avatar {
+      .header {
         display: flex;
+        align-items: center;
         justify-content: center;
+        color: #fff;
+        gap: 10px;
         margin: 40px 0;
 
-        img {
-          width: 50%;
-          border-radius: 50%;
+        .title {
+          font-size: 22px;
+          font-weight: 600;
+        }
+
+        .logo {
+          width: 36px;
+        }
+      }
+
+      .list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+
+        .section {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          .list-item {
+            display: flex;
+            padding: 10px;
+            justify-content: left;
+            align-items: center;
+            padding-left: 25%;
+            gap: 10px;
+            cursor: pointer;
+  
+            .mat-icon,a {
+              color: #dcd9d9;
+              text-decoration: none;
+            }
+        }
+        }
+
+        .list-item.active {
+          .mat-icon,a {
+            color: #fff;
+            font-weight: 600;
+          }
         }
       }
     }
