@@ -1,4 +1,4 @@
-export function setSessionUser(key: string,value:string): any {
+export function setSession(key: string,value:string): any {
     const sessionData = sessionStorage.setItem(key,value);
   
     try {

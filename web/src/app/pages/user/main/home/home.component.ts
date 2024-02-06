@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { getSessionUser } from 'src/app/core/funcs/geSession';
+import { getSession } from 'src/app/core/funcs/geSession';
 import { ProductsService } from 'src/app/services/products.service';
 import { StateCartService } from 'src/app/services/state-cart.service';
 
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateState() {
-    if (!getSessionUser('user')) {
+    if (!getSession('user')) {
       this.router.navigate(['/auth']);
     }else{
       const newState =  this.cart_amount += 1;

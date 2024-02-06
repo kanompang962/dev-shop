@@ -1,0 +1,58 @@
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 40px 0;
+
+    .section-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+    
+        .title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+
+    .section-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .btn-noti {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #dcd9d9;
+            border: none;
+            border-radius: 50%;
+
+            .mat-icon {
+                font-size: 20px;
+            }
+        }
+        .avatar{
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    }
+
+
+}

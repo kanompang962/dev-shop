@@ -1,6 +1,6 @@
 // session.service.ts
 
-export function getSessionUser(key: string): any {
+export function getSession(key: string): any {
     const sessionData = sessionStorage.getItem(key);
   
     try {

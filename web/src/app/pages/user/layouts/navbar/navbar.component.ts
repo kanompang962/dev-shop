@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { getSessionUser } from 'src/app/core/funcs/geSession';
+import { getSession } from 'src/app/core/funcs/geSession';
 import { User } from 'src/app/core/models/user.model';
 import { StateCartService } from 'src/app/services/state-cart.service';
 
@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getUser(){
-    this.user = getSessionUser('user')
+    this.user = getSession('user')
     console.log(this.user)
   }
 

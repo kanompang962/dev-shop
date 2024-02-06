@@ -7,25 +7,25 @@
          </div>
         <div class="list-container">
             <div class="section">
-                <div class="list-item" routerLinkActive="active" routerLink="dashboard">
+                <div class="list-item" routerLinkActive="active" routerLink="dashboard" >
                     <mat-icon>dashboard</mat-icon>
                     <a>Dashboard</a>
                 </div>
-                <div class="list-item" routerLinkActive="active" routerLink="products">
+                <div class="list-item" routerLinkActive="active" routerLink="products"  >
                     <mat-icon>loyalty</mat-icon>
                     <a>Products</a>
                 </div>
-                <div class="list-item" routerLinkActive="active" routerLink="users">
+                <div class="list-item" routerLinkActive="active" routerLink="users" >
                     <mat-icon>people</mat-icon>
                     <a>Users</a>
                 </div>
             </div>
             <div class="section">
-                <div class="list-item" routerLinkActive="active" routerLink="dashboard">
+                <div class="list-item" routerLinkActive="active" routerLink="dashboard"  >
                     <mat-icon>settings</mat-icon>
                     <a>Settings</a>
                 </div>
-                <div class="list-item" routerLinkActive="active" routerLink="products">
+                <div class="list-item" routerLinkActive="active" routerLink="products"  >
                     <mat-icon>info</mat-icon>
                     <a>Help</a>
                 </div>
@@ -35,10 +35,8 @@
     <!-- main -->
     <mat-drawer-content>
         <!-- navbar -->
-        <div class="navbar">
-            <!-- <button mat-raised-button (click)="drawer.toggle()"><mat-icon>reorder</mat-icon></button> -->
-            <app-navbar (toggleDrawerEvent)="drawer.toggle()"></app-navbar>
-        </div>
+        <!-- <button mat-raised-button (click)="drawer.toggle()"><mat-icon>reorder</mat-icon></button> -->
+        <app-navbar  (toggleDrawerEvent)="drawer.toggle()"></app-navbar>
         <!-- page -->
         <router-outlet></router-outlet>
     </mat-drawer-content>

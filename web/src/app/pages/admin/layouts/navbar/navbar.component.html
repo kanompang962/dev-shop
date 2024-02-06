@@ -1,8 +1,15 @@
 <!-- navbar.component.html -->
 
 <div class="navbar">
-    <button mat-raised-button (click)="toggleDrawer()">
-       <mat-icon>reorder</mat-icon>
-    </button>
+    <div class="section-left">
+        <button (click)="toggleDrawer()">
+            <mat-icon>reorder</mat-icon>
+         </button>
+         <p class="title">{{title}}</p>
+    </div>
+    <div class="section-right">
+        <button class="btn-noti"><mat-icon>notifications_none</mat-icon></button>
+        <img class="avatar" src="https://img.freepik.com/free-photo/androgynous-avatar-non-binary-queer-person_23-2151100226.jpg?size=626&ext=jpg&ga=GA1.2.1899227811.1704350780&semt=sph" alt="avatar" >
+    </div>
  </div>
  

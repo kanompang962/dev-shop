@@ -21,6 +21,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
     MatDialogModule,
     SharedModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule
   ]
 })
 export class AdminModule { }

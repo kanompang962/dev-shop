@@ -49,13 +49,13 @@
               color: #dcd9d9;
               text-decoration: none;
             }
-        }
-        }
+          }
 
-        .list-item.active {
-          .mat-icon,a {
-            color: #fff;
-            font-weight: 600;
+          .list-item.active {
+            .mat-icon,a {
+              color: #fff;
+              font-weight: 600;
+            }
           }
         }
       }
@@ -64,12 +64,7 @@
     // Style the content area
     .mat-drawer-content {
       width: 100%;
-      padding: 16px; // Add padding to the content area
-      
-      .navbar {
-        width: 100%;
-        margin-bottom: 16px;
-      }
+      padding: 0 40px; 
     }
   }
   
