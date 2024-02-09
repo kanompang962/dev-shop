@@ -2,7 +2,7 @@
 
 <div class="group-input-select">
     <select [(ngModel)]="selectedValue" (change)="onSelectionChange()">
-        <option value="undefined" disabled selected>Select an option</option>
+        <option value="0" disabled selected>{{placehoder}}</option>
         <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
     </select>
 </div>

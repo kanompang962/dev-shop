@@ -1,0 +1,51 @@
+
+  <div class="create-container">
+    <div class="header">
+      <p class="title">New User</p>
+    </div>
+    <form [formGroup]="userForm">
+      <div class="input-group">
+          <label for="Username">Username</label>
+          <app-input class="input-custom" name="Username" type="text" [formControl]="userForm.get('Username')"></app-input>
+          <small *ngIf="isSubmit && userForm.get('Username').invalid && userForm.get('Username').errors?.required" class="error-message">
+            Username is required 
+          </small>
+      </div>
+      <div class="input-group">
+          <label for="Password">Password</label>
+          <app-input class="input-custom"  name="Password" type="password" [formControl]="userForm.get('Password')"></app-input>
+          <small *ngIf="isSubmit && userForm.get('Password').invalid && userForm.get('Password').errors?.required" class="error-message">
+            Password is required
+          </small>
+      </div>
+      <div class="input-group">
+          <label for="FirstName">FirstName</label>
+          <app-input class="input-custom" name="FirstName" type="text" [formControl]="userForm.get('FirstName')"></app-input>
+          <small *ngIf="isSubmit && userForm.get('FirstName').invalid && userForm.get('FirstName').errors?.required" class="error-message">
+            FirstName is required
+          </small>
+      </div>
+      <div class="input-group">
+          <label for="LastName">LastName</label>
+          <div class="input-custom">
+            <app-input name="LastName" type="text" [formControl]="userForm.get('LastName')"></app-input>
+            <small *ngIf="isSubmit && userForm.get('LastName').invalid && userForm.get('LastName').errors?.required" class="error-message">
+              LastName is required
+            </small>
+          </div>
+      </div>
+      <div class="input-group">
+          <label for="Role">Role</label>
+          <div class="input-custom">
+            <app-select [options]="roleOption" (selectionChange)="onSelectionChange($event)" [placehoder]="'Select an Role'"></app-select>
+            <small *ngIf="isSubmit && userForm.get('Role').invalid && userForm.get('Role').errors?.required" class="error-message">
+              Role is required
+            </small>
+          </div>
+      </div>
+    </form>
+    <div class="footer">
+      <button class="btn-save" (click)="onSubmit()" >Submit</button>
+      <button class="btn-close" (click)="onClose()">Close</button>
+  </div>
+  </div>

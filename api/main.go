@@ -1,8 +1,9 @@
 package main
 
 import (
-	"errors"
+	// "errors"
 	"fmt"
+	// "go/token"
 	"log"
 	"os"
 	"strconv"
@@ -10,7 +11,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"golang.org/x/crypto/bcrypt"
+
+	// "golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -23,6 +25,15 @@ const (
 	password = "devpassword" // as defined in docker-compose.yml
 	dbname   = "devdatabase" // as defined in docker-compose.yml
 )
+
+func logRequest(c *fiber.Ctx) error {
+	fmt.Printf("Received request: %s %s\n", c.Method(), c.Path())
+	return c.Next()
+}
+
+func myHandler(c *fiber.Ctx) error {
+	return c.SendString("Hello, this is your main handler!")
+}
 
 func main() {
 	// Configure your PostgreSQL database details here
@@ -47,7 +58,7 @@ func main() {
 		panic("failed to connect to database")
 	}
 
-	db.AutoMigrate(&Product{}, &User{})
+	db.AutoMigrate(&Product{}, &User{}, &Role{})
 	fmt.Println("Database migration completed!")
 
 	// Setup Fiber
@@ -57,39 +68,61 @@ func main() {
 	app.Use(cors.New())
 
 	//:::::::::::::::::::::: Auth ::::::::::::::::::::::\\
+
+	// app.Post("/login", func(c *fiber.Ctx) error {
+	// 	user := new(User)
+	// 	err := c.BodyParser(user)
+	// 	if err != nil {
+	// 		return c.SendStatus(fiber.StatusBadRequest)
+	// 	}
+
+	// 	var existingUser User
+	// 	result := db.Where("username = ?", user.Username).First(&existingUser)
+
+	// 	if result.Error != nil {
+	// 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+	// 			// User not found
+	// 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+	// 				"message": "Invalid credentials",
+	// 			})
+	// 		}
+
+	// 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+	// 			"message": result.Error.Error(),
+	// 		})
+	// 	}
+
+	// 	err2 := bcrypt.CompareHashAndPassword([]byte(existingUser.Password), []byte(user.Password))
+	// 	if err2 != nil {
+	// 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+	// 			"message": "Invalid credentials",
+	// 		})
+	// 	}
+
+	// 	return c.JSON(fiber.Map{
+	// 		"message": "Login successful",
+	// 		"user":    existingUser,
+	// 	})
+	// })
+
 	app.Post("/login", func(c *fiber.Ctx) error {
 		user := new(User)
 		err := c.BodyParser(user)
+
 		if err != nil {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
-		var existingUser User
-		result := db.Where("username = ?", user.Username).First(&existingUser)
+		currentUser, token, err := login(db, user)
 
-		if result.Error != nil {
-			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-				// User not found
-				return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-					"message": "Invalid credentials",
-				})
-			}
-
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"message": result.Error.Error(),
-			})
-		}
-
-		err2 := bcrypt.CompareHashAndPassword([]byte(existingUser.Password), []byte(user.Password))
-		if err2 != nil {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"message": "Invalid credentials",
-			})
+		if err != nil {
+			return c.SendStatus(fiber.StatusUnauthorized)
 		}
 
 		return c.JSON(fiber.Map{
-			"message": "Login successful",
-			"user":    existingUser,
+			"message": "success",
+			"data":    currentUser,
+			"token":   token,
 		})
 	})
 
@@ -117,7 +150,8 @@ func main() {
 
 	//:::::::::::::::::::::: User ::::::::::::::::::::::\\
 	app.Get("/users", func(c *fiber.Ctx) error {
-		return c.JSON(getUsers(db))
+		keywords := c.Query("keywords")
+		return c.JSON(getUsers(db, keywords))
 	})
 
 	app.Get("/user/:id", func(c *fiber.Ctx) error {
@@ -133,15 +167,11 @@ func main() {
 		user := new(User)
 		err := c.BodyParser(user)
 		// file, err := c.FormFile("Img")
-
 		// if file != nil {
-
 		// 	if err != nil {
 		// 		return c.SendStatus(fiber.StatusBadRequest)
 		// 	}
-
 		// 	err = c.SaveFile(file, "uploads/images/"+file.Filename)
-
 		// 	if err != nil {
 		// 		return c.SendStatus(fiber.StatusInternalServerError)
 		// 	}
@@ -291,6 +321,48 @@ func main() {
 	// 		"message": "File uploaded successfully",
 	// 	})
 	// })
+
+	//:::::::::::::::::::::: Role ::::::::::::::::::::::\\
+	app.Get("/roles", func(c *fiber.Ctx) error {
+		keywords := c.Query("keywords")
+		return c.JSON(getRoles(db, keywords))
+	})
+
+	app.Post("/role", func(c *fiber.Ctx) error {
+		role := new(Role)
+		err := c.BodyParser(role)
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		err2 := createRole(db, role)
+		if err2 != nil {
+			if err2.Error() == "Name already taken" {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"message": "Name already taken",
+				})
+			}
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
+	//:::::::::::::::::::::: Utility ::::::::::::::::::::::\\
+	app.Get("/unit", func(c *fiber.Ctx) error {
+		countUser := getUnitUsers(db)
+		countProduct := getUnitProducts(db)
+
+		return c.JSON(fiber.Map{
+			"message": "success",
+			"data": fiber.Map{
+				"user":    countUser,
+				"product": countProduct,
+			},
+		})
+	})
 
 	app.Listen(":8080")
 

@@ -1,0 +1,16 @@
+
+<div class="setting-container">
+    <div class="section-left">
+        <p>setting works!</p>
+    </div>
+    <div class="section-right">
+    <!-- With regular value binding -->
+        <app-input
+        [placeholder]="'Enter your name'"
+        [(inputValue)]="nameRole"
+        ></app-input>
+        <p>{{nameRole}}</p>
+
+        <button (click)="addRole()">add</button>
+    </div>
+</div>

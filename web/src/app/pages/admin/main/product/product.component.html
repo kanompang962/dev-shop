@@ -1,40 +1,32 @@
 <div class="product-container">
-   <div class="table-card">
-        <div class="container-filter">
-            <app-search (searchEvent)="handleSearchChange($event)"></app-search>
-            <app-select [options]="option" [placehoder]="'Role'" (selectionChange)="handleSelectionChange($event)"></app-select>
-            <app-select [options]="option" [placehoder]="'Role'" (selectionChange)="handleSelectionChange($event)"></app-select>
-            <app-select [options]="option" [placehoder]="'Role'" (selectionChange)="handleSelectionChange($event)"></app-select>
-            <button class="btn-reset">Reset</button>
-            <button class="btn-add" (click)="createDialog()">Add Product</button>
-        </div>
+    <div class="section-left">
+        <app-search (searchEvent)="handleSearchChange($event)"></app-search>
+        <button class="btn-add" (click)="createDialog()">Add Product</button>
+    </div>
+    <div class="section-right">
         <div class="table">
             <table mat-table [dataSource]="dataSource" class="">
-                <!-- Name Column -->
+
                 <ng-container matColumnDef="Name">
                 <th mat-header-cell *matHeaderCellDef> Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
                 </ng-container>
-            
-                <!-- CreatedAt Column -->
+
                 <ng-container matColumnDef="CreatedAt">
                 <th mat-header-cell *matHeaderCellDef> Date </th>
                 <td mat-cell *matCellDef="let element"> {{element.CreatedAt}} </td>
                 </ng-container>
             
-                <!-- Description Column -->
                 <ng-container matColumnDef="Description">
                 <th mat-header-cell *matHeaderCellDef> Description </th>
                 <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
                 </ng-container>
 
-                <!-- Price Column -->
                 <ng-container matColumnDef="Price">
                 <th mat-header-cell *matHeaderCellDef> Price </th>
                 <td mat-cell *matCellDef="let element"> {{element.Price}} </td>
                 </ng-container>
 
-                <!-- Management Column -->
                 <ng-container matColumnDef="Management">
                 <th mat-header-cell *matHeaderCellDef> Management </th>
                 <td mat-cell *matCellDef="let element"> 
@@ -44,11 +36,12 @@
                     </div>
                 </td>
                 </ng-container>
-        
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                
             </table>    
             <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>  
         </div>
-   </div>
+    </div>
 </div>

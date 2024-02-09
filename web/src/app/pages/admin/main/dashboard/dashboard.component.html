@@ -1,1 +1,81 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+    <div class="section-left">
+        <div class="container-kpis">
+            <div class="header">
+                <p class="title">KPIs</p>
+                <mat-icon>more_vert</mat-icon>
+            </div>
+            <div class="current">
+                <p class="text">Current Products</p>
+                <div class="unit">
+                    <p class="text-unit"> {{currentProduct}} </p>
+                    <div class="icon-unit increase">
+                        <mat-icon>trending_up</mat-icon>
+                        <p>17%</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="current">
+                <p class="text">Current Users</p>
+                <div class="unit">
+                    <p class="text-unit"> {{currentUser}} </p>
+                    <div class="icon-unit decrease">
+                        <mat-icon>trending_down</mat-icon>
+                        <p>18%</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="current">
+                <p class="text">Current Users</p>
+                <div class="unit">
+                    <p class="text-unit"> 200 </p>
+                    <div class="icon-unit">
+                        <mat-icon>trending_flat</mat-icon>
+                        <p>18%</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <div class="container-analytics">
+            <div class="header">
+                <p class="title">Analytics</p>
+                <mat-icon>more_vert</mat-icon>
+            </div>
+            <div class="chart">
+                <apx-chart
+                  [series]="chartOptions.series!"
+                  [chart]="chartOptions.chart!"
+                  [labels]="chartOptions.labels"
+                  [colors]="chartOptions.colors!"
+                  [responsive]="chartOptions.responsive!">
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+    <div class="section-right">
+        <div class="container-graph">
+            <div class="header">
+                <p class="title">This Year Growth</p>
+                <!-- <mat-icon>more_vert</mat-icon> -->
+            </div>
+            <div class="graph">
+                <apx-chart
+                [series]="graphOptions.series!"
+                [chart]="graphOptions.chart!"
+                [stroke]="graphOptions.stroke!"
+                [dataLabels]="graphOptions.dataLabels!"
+                [plotOptions]="graphOptions.plotOptions!"
+                [xaxis]="graphOptions.xaxis!"
+                [colors]="graphOptions.colors!"
+                [fill]="graphOptions.fill!"
+                [yaxis]="graphOptions.yaxis!"
+                [legend]="graphOptions.legend!"
+              ></apx-chart>
+              </div>
+        </div>
+    </div>
+</div>

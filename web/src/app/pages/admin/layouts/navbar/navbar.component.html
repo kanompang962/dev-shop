@@ -10,6 +10,14 @@
     <div class="section-right">
         <button class="btn-noti"><mat-icon>notifications_none</mat-icon></button>
         <img class="avatar" src="https://img.freepik.com/free-photo/androgynous-avatar-non-binary-queer-person_23-2151100226.jpg?size=626&ext=jpg&ga=GA1.2.1899227811.1704350780&semt=sph" alt="avatar" >
+        <!-- logout.component.html -->
+        <button class="username" mat-button [matMenuTriggerFor]="menu">
+            {{user?.FirstName}} {{user?.LastName}}
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+
     </div>
  </div>
  

@@ -1,108 +1,152 @@
 
 
+// .product-container {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 16px;
+
+//     .title {
+//         font-size: 18px;
+//         font-weight: 600;
+//     }
+    
+//     .table-card {
+//         background: #fff;
+//         padding: 16px;
+//         border-radius: 8px;
+//         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//         display: flex;
+//         flex-direction: column;
+//         gap: 16px;
+
+//         .container-filter {
+//             display: flex;
+//             gap: 10px;
+//             // justify-content: space-between;
+    
+//             .btn-reset {
+//                 background: transparent;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 padding: 6px 8px;
+//                 width: 100%;
+//                 max-width: 100px;
+//                 outline: none;
+//                 border: 1px solid #d1d1d1;
+//                 border-radius: 8px;
+//                 cursor: pointer;
+//             }
+
+//             .btn-add {
+//                 background: #13941e;
+//                 color: #fff;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 padding: 6px 8px;
+//                 width: 100%;
+//                 max-width: 100px;
+//                 outline: none;
+//                 border: none;
+//                 border-radius: 8px;
+//                 cursor: pointer;
+//             }
+
+//             .group-input-select {
+//                 select {
+//                     width: 200px;
+//                     height: 100%;
+//                     padding: 6px;
+//                     outline: none;
+//                     border: 1px solid #d1d1d1;
+//                     border-radius: 8px;
+//                 }
+               
+//             }
+    
+//             .group-input-search {
+//                 display: flex;
+//                 width: 280px;
+        
+//                 input {
+//                     width: 200px;
+//                     height: 100%;
+//                     padding: 6px;
+//                     outline: none;
+//                     border: 1px solid #d1d1d1;
+//                     border-top-left-radius: 8px;
+//                     border-bottom-left-radius: 8px;
+//                 }
+        
+//                 button {
+//                     background: #fff;
+//                     display: flex;
+//                     justify-content: center;
+//                     align-items: center;
+//                     padding: 6px;
+//                     outline: none;
+//                     border: 1px solid #d1d1d1;
+//                     border-top-right-radius: 8px;
+//                     border-bottom-right-radius: 8px;
+//                     border-left: none;
+//                     cursor: pointer;
+//                 }
+//             }
+//         }
+
+//         .management-icon {
+//             display: flex;
+//             gap: 40px;
+
+//             .mat-icon {
+//                 cursor: pointer;
+//             }
+//         }
+//     }
+    
+//   }
+
+
+
 .product-container {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    width: 100%;
 
-    .title {
-        font-size: 18px;
-        font-weight: 600;
-    }
-    
-    .table-card {
-        background: #fff;
-        padding: 16px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    .section-left {
+        width: 30%;
+        padding: 0 40px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 20px;
 
-        .container-filter {
+        .btn-add {
+            background: #13941e;
+            color: #fff;
             display: flex;
-            gap: 10px;
-            // justify-content: space-between;
-    
-            .btn-reset {
-                background: transparent;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 6px 8px;
-                width: 100%;
-                max-width: 100px;
-                outline: none;
-                border: 1px solid #d1d1d1;
-                border-radius: 8px;
-                cursor: pointer;
-            }
-
-            .btn-add {
-                background: #13941e;
-                color: #fff;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 6px 8px;
-                width: 100%;
-                max-width: 100px;
-                outline: none;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-            }
-
-            .group-input-select {
-                select {
-                    width: 200px;
-                    height: 100%;
-                    padding: 6px;
-                    outline: none;
-                    border: 1px solid #d1d1d1;
-                    border-radius: 8px;
-                }
-               
-            }
-    
-            .group-input-search {
-                display: flex;
-                width: 280px;
-        
-                input {
-                    width: 200px;
-                    height: 100%;
-                    padding: 6px;
-                    outline: none;
-                    border: 1px solid #d1d1d1;
-                    border-top-left-radius: 8px;
-                    border-bottom-left-radius: 8px;
-                }
-        
-                button {
-                    background: #fff;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 6px;
-                    outline: none;
-                    border: 1px solid #d1d1d1;
-                    border-top-right-radius: 8px;
-                    border-bottom-right-radius: 8px;
-                    border-left: none;
-                    cursor: pointer;
-                }
-            }
+            justify-content: center;
+            align-items: center;
+            padding: 6px 8px;
+            width: 100%;
+            height: 35px;
+            outline: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
-        .management-icon {
-            display: flex;
-            gap: 40px;
-
-            .mat-icon {
-                cursor: pointer;
-            }
-        }
     }
-    
-  }
+
+    .section-right {
+        width: 70%;
+        padding: 0 40px;
+        background: #fff;
+
+      
+    }
+}
+
+
+hr {
+    border: 1px solid #edeff0
+}

@@ -10,7 +10,7 @@ export class SearchComponent {
 
   searchQuery: string = '';
 
-  onSearch() {
+  onInputChange(): void {
     this.searchEvent.emit(this.searchQuery);
   }
 }

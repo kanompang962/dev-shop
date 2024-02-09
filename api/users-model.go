@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 
 	"golang.org/x/crypto/bcrypt"
@@ -16,14 +17,22 @@ type User struct {
 	Email     string
 	Username  string
 	Password  string
-	Role      int64
-	Active    bool `gorm:"default:true"`
+	RoleID    uint `gorm:"default:3"`
+	Role      Role
+	Active    bool
 }
 
-func getUsers(db *gorm.DB) []User {
+func getUsers(db *gorm.DB, keywords string) []User {
 	var users []User
-	// result := db.Find(&products)
-	result := db.Order("Id desc").Find(&users)
+	query := db.Order("Id desc")
+
+	if keywords != "" {
+		query = query.Where(
+			"first_name ILIKE ? OR last_name ILIKE ? OR username ILIKE ?", "%"+keywords+"%", "%"+keywords+"%", "%"+keywords+"%")
+	}
+
+	result := query.Preload("Role").Find(&users)
+
 	if result.Error != nil {
 		log.Fatalf("Error finding user: %v", result.Error)
 	}
@@ -41,6 +50,11 @@ func getUser(db *gorm.DB, id int) *User {
 
 func createUser(db *gorm.DB, user *User) error {
 	var existingUser User
+	fmt.Println("---------------------------")
+	fmt.Println(user)
+	fmt.Println("---------------------------")
+	fmt.Println(user.Active)
+	fmt.Println("---------------------------")
 	result := db.Where("username = ?", user.Username).First(&existingUser)
 
 	if result.RowsAffected > 0 {
@@ -82,4 +96,10 @@ func deleteUser(db *gorm.DB, id int) error {
 	}
 
 	return nil
+}
+
+func getUnitUsers(db *gorm.DB) int64 {
+	var count int64
+	db.Model(&User{}).Count(&count)
+	return count
 }

@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/app/core/models/user.model';
 import { SweetAlertService } from 'src/app/services/sweet-alert/sweet-alert.service';
 import { UsersService } from 'src/app/services/users.service';
+import { CreateComponent } from './create/create.component';
 
 @Component({
   selector: 'app-user',
@@ -24,7 +25,7 @@ export class UserComponent implements OnInit {
     public sweetAlertService: SweetAlertService
   ) {}
 
-  displayedColumns: string[] = ['FirstName', 'LastName','Username', 'Management'];
+  displayedColumns: string[] = ['FirstName', 'LastName','Username','Role', 'Active', 'Management'];
   dataSource:any;
   users: User[] = []
   option = [
@@ -32,13 +33,15 @@ export class UserComponent implements OnInit {
     {value:2, label:'b'},
     {value:3, label:'c'},
   ]
+  keywords = ''
 
   ngOnInit(): void {
+    this.createDialog()
     this.fetchUsers();
   }
 
   fetchUsers(){
-    this.usersService.getUsers().subscribe((data) => {
+    this.usersService.getUsers(this.keywords).subscribe((data) => {
       data.forEach(element => {
         if (element.CreatedAt) {
           element.CreatedAt =  new DatePipe('en-US').transform(element.CreatedAt, 'yyyy-MM-dd HH:mm')!;
@@ -55,7 +58,17 @@ export class UserComponent implements OnInit {
   }
 
   createDialog(): void {
-    
+    const dialogRef = this.dialog.open(CreateComponent, {
+      // width: '250px',
+      data: { title: 'Dialog Title', message: 'Hello from the dialog!' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.sweetAlertService.showAlert('Success','Your submission has been received','success')
+        this.fetchUsers();
+      }
+    });
   }
 
   updateDialog(id:number): void {
@@ -67,13 +80,8 @@ export class UserComponent implements OnInit {
   }
 
   handleSearchChange(value: string): void {
-    console.log('Selected Value:', value);
-    // Handle the selected value as needed
-  }
-
-  handleSelectionChange(selectedValue: Event): void {
-    console.log('Selected Value:', selectedValue);
-    // Handle the selected value as needed
+    this.keywords = value
+    this.fetchUsers();
   }
 
 }

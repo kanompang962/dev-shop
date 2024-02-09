@@ -1,14 +1,19 @@
+@import '../../../../../styles.scss';
 
 .navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin: 40px 0;
+    // justify-content: space-between;
+    // padding: 40px 0;
 
     .section-left {
+        background: transparent;
+        width: 30%;
+        height: 100%;
         display: flex;
         align-items: center;
         gap: 10px;
+        padding: 40px;
 
         button {
             display: flex;
@@ -20,15 +25,20 @@
         }
     
         .title {
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 600;
         }
     }
 
     .section-right {
+        background: #fff;
+        width: 70%;
+        height: 100%;
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: flex-end;
+        gap: 20px;
+        padding: 40px;
 
         .btn-noti {
             width: 35px;
@@ -51,6 +61,12 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+        }
+
+        .username {
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Urbanist', sans-serif;
         }
     }
 

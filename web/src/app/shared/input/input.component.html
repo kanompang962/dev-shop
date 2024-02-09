@@ -1,1 +1,18 @@
-<p>input works!</p>
+<!-- <div>
+    <input [type]="type" id="sharedInput" [ngModel]="inputValue" (ngModelChange)="onInputChange($event)" [placeholder]="placeholder" />
+</div> -->
+
+<div>
+    <label *ngIf="label" for="{{ name }}">{{ label }}:</label>
+    <input
+        [type]="type"
+        [id]="name"
+        [name]="name"
+        [formControl]="formControl"
+        (input)="onInputChange($event)"
+        (blur)="onTouched()"
+        (ngModelChange)="onValueChange($event)"
+      />
+      <small class="error-message">required</small>
+  </div>
+

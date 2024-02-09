@@ -1,0 +1,28 @@
+
+
+.setting-container {
+    display: flex;
+    width: 100%;
+
+    .section-left {
+        width: 30%;
+        padding: 0 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+
+    }
+
+    .section-right {
+        width: 70%;
+        padding: 0 40px;
+        background: #fff;
+
+      
+    }
+}
+
+
+hr {
+    border: 1px solid #edeff0
+}

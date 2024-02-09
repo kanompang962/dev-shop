@@ -5,6 +5,7 @@ import { ProductComponent } from './main/product/product.component';
 import { UserComponent } from './main/user/user.component';
 import { MainlayoutComponent } from './layouts/mainlayout/mainlayout.component';
 import { AuthGuardService } from 'src/app/core/guard/auth-gurad.guard';
+import { SettingComponent } from './main/setting/setting.component';
 
 
 const routes: Routes = [{ 
@@ -14,6 +15,7 @@ const routes: Routes = [{
     {path:'dashboard', component: DashboardComponent,  canActivate: [AuthGuardService],},
     {path:'products', component: ProductComponent,  canActivate: [AuthGuardService],},
     {path:'users', component: UserComponent,  canActivate: [AuthGuardService],},
+    {path:'settings', component: SettingComponent,  canActivate: [AuthGuardService],},
   ]}
 ];
 

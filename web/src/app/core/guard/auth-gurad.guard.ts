@@ -1,6 +1,7 @@
 import { Injectable,  } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { UtilityService } from 'src/app/services/utility.service';
+import { getSession } from '../funcs/sessionService';
 
 
 @Injectable({
@@ -21,7 +22,7 @@ export class AuthGuardService implements CanActivate {
 
     this.setTilePage(route);
 
-    if (!sessionStorage.getItem('user')) {
+    if (!getSession('user')) {
       this.router.navigate(['/auth']);
       return false;
     }
@@ -35,7 +36,10 @@ export class AuthGuardService implements CanActivate {
   }
 
   getAction(urlPath:string | undefined) {
+    console.log(urlPath)
     switch (urlPath) {
+      case '':
+        return 'Dashboard';
       case 'Dashboard':
         return 'Dashboard';
       case 'Products':

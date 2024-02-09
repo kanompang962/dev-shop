@@ -49,7 +49,7 @@ export class ProductComponent implements OnInit {
         }
       });
       this.products = data
-      this.dataSource = new MatTableDataSource<Product>(data);
+      this.dataSource = new MatTableDataSource<Product>(this.products );
 
       // Set paginator if available
       if (this.paginator) {

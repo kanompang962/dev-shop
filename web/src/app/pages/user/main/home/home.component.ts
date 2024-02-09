@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { getSession } from 'src/app/core/funcs/geSession';
+import { getSession } from 'src/app/core/funcs/sessionService';
 import { ProductsService } from 'src/app/services/products.service';
 import { StateCartService } from 'src/app/services/state-cart.service';
 

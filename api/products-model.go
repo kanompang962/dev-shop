@@ -71,3 +71,9 @@ func deleteProduct_unscope(db *gorm.DB, id uint) {
 	}
 	fmt.Println("Book deleted successfully")
 }
+
+func getUnitProducts(db *gorm.DB) int64 {
+	var count int64
+	db.Model(&Product{}).Count(&count)
+	return count
+}

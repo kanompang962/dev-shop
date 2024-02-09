@@ -8,9 +8,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class SelectComponent {
 
   @Input() placehoder = ''
-  @Input() options: { value: any, label: string }[] = [];
+  @Input() options: { value: number, label: string }[] = [];
   @Output() selectionChange = new EventEmitter<any>();
-  selectedValue: any;
+  selectedValue: number = 0;
 
   onSelectionChange() {
     this.selectionChange.emit(this.selectedValue);

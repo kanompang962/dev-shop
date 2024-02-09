@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { setSession } from 'src/app/core/funcs/sessionService';
 import { AuthService } from 'src/app/services/auth.service';
 import { SweetAlertService } from 'src/app/services/sweet-alert/sweet-alert.service';
 
@@ -37,10 +38,7 @@ export class LoginComponent implements OnInit {
       const data = this.loginForm.value
       this.authService.login(data).subscribe((res)=>{
         if (res) {
-          sessionStorage.setItem('user',JSON.stringify({
-            username:this.loginForm.value['username'],
-            password:this.loginForm.value['password']
-          }))
+          setSession('user', JSON.stringify(res))
           this.sweetAlertService.showAlert('Success','Login Success')
           this.router.navigate(['/admin']);
         }
