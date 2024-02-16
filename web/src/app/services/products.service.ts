@@ -22,11 +22,11 @@ export class ProductsService {
     return this.http.get<Product>(`${this.apiUrl}/product/${id}`);
   }
 
-  postProduct(product: Product): Observable<Product> {
+  createProduct(product: FormData): Observable<Product> {
     return this.http.post<Product>(`${this.apiUrl}/product`, product);
   }
 
-  update(id : number ,product: Product): Observable<Product> {
+  updateProduct(id : number ,product: FormData): Observable<Product> {
     return this.http.put<Product>(`${this.apiUrl}/product/${id}`, product);
   }
 

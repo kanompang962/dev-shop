@@ -5,44 +5,77 @@
     </div>
     <form [formGroup]="userForm">
       <div class="input-group">
-          <label for="Username">Username</label>
-          <app-input class="input-custom" name="Username" type="text" [formControl]="userForm.get('Username')"></app-input>
+        <label for="Username">Username</label>
+        <div class="input-custom">
+          <app-input name="Username" type="text" [formControl]="userForm.get('Username')"></app-input>
           <small *ngIf="isSubmit && userForm.get('Username').invalid && userForm.get('Username').errors?.required" class="error-message">
             Username is required 
           </small>
+        </div>
       </div>
       <div class="input-group">
-          <label for="Password">Password</label>
-          <app-input class="input-custom"  name="Password" type="password" [formControl]="userForm.get('Password')"></app-input>
+        <label for="Password">Password</label>
+        <div class="input-custom">
+          <app-input name="Password" type="password" [formControl]="userForm.get('Password')"></app-input>
           <small *ngIf="isSubmit && userForm.get('Password').invalid && userForm.get('Password').errors?.required" class="error-message">
-            Password is required
+            required
           </small>
+        </div>
       </div>
       <div class="input-group">
-          <label for="FirstName">FirstName</label>
-          <app-input class="input-custom" name="FirstName" type="text" [formControl]="userForm.get('FirstName')"></app-input>
+        <label for="FirstName">FirstName</label>
+        <div class="input-custom">
+          <app-input name="FirstName" type="text" [formControl]="userForm.get('FirstName')"></app-input>
           <small *ngIf="isSubmit && userForm.get('FirstName').invalid && userForm.get('FirstName').errors?.required" class="error-message">
-            FirstName is required
+            required
           </small>
+        </div>
       </div>
       <div class="input-group">
-          <label for="LastName">LastName</label>
-          <div class="input-custom">
-            <app-input name="LastName" type="text" [formControl]="userForm.get('LastName')"></app-input>
-            <small *ngIf="isSubmit && userForm.get('LastName').invalid && userForm.get('LastName').errors?.required" class="error-message">
-              LastName is required
-            </small>
-          </div>
+        <label for="LastName">LastName</label>
+        <div class="input-custom">
+          <app-input name="LastName" type="text" [formControl]="userForm.get('LastName')"></app-input>
+          <small *ngIf="isSubmit && userForm.get('LastName').invalid && userForm.get('LastName').errors?.required" class="error-message">
+            required
+          </small>
+        </div>
       </div>
       <div class="input-group">
-          <label for="Role">Role</label>
-          <div class="input-custom">
-            <app-select [options]="roleOption" (selectionChange)="onSelectionChange($event)" [placehoder]="'Select an Role'"></app-select>
-            <small *ngIf="isSubmit && userForm.get('Role').invalid && userForm.get('Role').errors?.required" class="error-message">
-              Role is required
-            </small>
-          </div>
+        <label for="Role">Role</label>
+        <div class="input-custom">
+          <app-select [options]="roleOption" [formControl]="userForm.get('RoleID')" [placeholder]="'Select an Role'"></app-select>
+          <!-- <app-select [options]="roleOption"  [placehoder]="'Select an Role'"></app-select> -->
+          <small *ngIf="isSubmit && userForm.get('RoleID').invalid && userForm.get('RoleID').errors?.required" class="error-message">
+            required
+          </small>
+        </div>
       </div>
+      <div class="input-group">
+        <label for="Role">Status</label>
+        <div class="input-custom">
+          <mat-slide-toggle color="#ff0000"[checked]="isActive" (change)="onToggleChange($event)">{{isActive ?'Active':'Disable'}}</mat-slide-toggle>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="avatar">Profile</label>
+        <!-- <div class="avatar">
+          <img name="avatar" src="assets/images/avatar.jpeg" alt="">
+        </div> -->
+        <div class="container">
+          <div class="upload-area" *ngIf="!selectedFile_preview">
+            <p>Drag and drop your files.</p>
+            <input type="file" name="file" id="file" (change)="onFileChange($event)" accept="image/jpeg,image/png">
+            <label for="file">
+              <span>upload</span>
+            </label>
+          </div>
+          <div class="preview-area" *ngIf="selectedFile_preview">
+            <img [src]="selectedFile_preview" alt="รูปภาพตัวอย่าง">
+            <mat-icon class="icon-close" (click)="clearProfile()">close</mat-icon>
+          </div>
+        </div>
+      </div>
+      
     </form>
     <div class="footer">
       <button class="btn-save" (click)="onSubmit()" >Submit</button>

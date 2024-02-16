@@ -28,6 +28,7 @@ import { SettingComponent } from './main/setting/setting.component';
 import { FormsModule } from '@angular/forms';
 import { CreateComponent as CreateUser } from './main/user/create/create.component';
 import { UpdateComponent as UpdateUser } from './main/user/update/update.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { UpdateComponent as UpdateUser } from './main/user/update/update.compone
     MatExpansionModule,
     NgApexchartsModule,
     MatMenuModule,
-    FormsModule
+    FormsModule,
+    MatSlideToggleModule
   ]
 })
 export class AdminModule { }

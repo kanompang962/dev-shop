@@ -16,6 +16,8 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgModel, Validato
 export class InputComponent implements ControlValueAccessor, OnInit{
 
   @Input() type: string = 'text';
+  @Input() row: number = 4;
+  @Input() disabled: boolean = false;
   @Input() placeholder: string = '';
   @Input() inputValue: string = '';
   @Output() inputValueChange: EventEmitter<string> = new EventEmitter<string>();
@@ -44,7 +46,11 @@ export class InputComponent implements ControlValueAccessor, OnInit{
   }
 
   onInputChange(event: any): void {
-    this.onChange(event.target.value);
+    if (this.type == 'number') {
+      this.onChange(parseInt(event.target.value));
+    }else {
+      this.onChange(event.target.value);
+    }
   }
 
 

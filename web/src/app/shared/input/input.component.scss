@@ -1,5 +1,6 @@
+@import '../../../styles.scss';
 
-div {
+.input {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -11,7 +12,31 @@ div {
         padding: 6px;
         outline: none;
         border: 1px solid #d1d1d1;
-        border-radius: 8px;
+        border-radius: 4px;
+    }
+
+    .disabled {
+        background: $gray-secondary;
+    }
+
+    .error-message {
+        color: red;
+        // margin-top: 5px;
+      }
+}
+
+.area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    textarea {
+        width: 100%;
+        height: 100%;
+        padding: 6px;
+        outline: none;
+        border: 1px solid #d1d1d1;
+        border-radius: 4px;
     }
     .error-message {
         color: red;

@@ -11,6 +11,7 @@ export class User {
   Email: string;
   Username: string;
   Password: string;
+  RoleID: number;
   Role: number;
   Active: boolean;
 
@@ -25,6 +26,7 @@ export class User {
     Email: string,
     Username: string,
     Password: string,
+    RoleID: number,
     Role: number,
     Active: boolean
   ) {
@@ -38,6 +40,7 @@ export class User {
     this.Email = Email;
     this.Username = Username;
     this.Password = Password;
+    this.RoleID = RoleID;
     this.Role = Role;
     this.Active = Active;
   }

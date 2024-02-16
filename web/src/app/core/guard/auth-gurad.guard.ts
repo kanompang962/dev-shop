@@ -36,7 +36,6 @@ export class AuthGuardService implements CanActivate {
   }
 
   getAction(urlPath:string | undefined) {
-    console.log(urlPath)
     switch (urlPath) {
       case '':
         return 'Dashboard';

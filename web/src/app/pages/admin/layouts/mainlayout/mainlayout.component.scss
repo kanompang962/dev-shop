@@ -1,4 +1,4 @@
-// your-component.component.scss
+@import '../../../../../styles.scss';
 
 .example-container {
     display: flex;
@@ -65,7 +65,7 @@
     .mat-drawer-content {
       width: 100%;
       // padding: 0 40px; 
-      background: #fafafa;
+      background: $gray-primary;
     }
   }
   

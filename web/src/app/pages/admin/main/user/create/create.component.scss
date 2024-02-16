@@ -1,3 +1,5 @@
+@import '../../../../../../styles.scss';
+
 .create-container {
     display: flex;
     flex-direction: column;
@@ -7,6 +9,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 40px;
 
         .title {
             font-size: 24px;
@@ -19,7 +22,6 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
-        margin: 20px 0;
 
         .input-group {
             display: flex;
@@ -32,7 +34,92 @@
             .input-custom {
                 width: 100%;
             }
+
+            .avatar {
+                width: 120px;
+                height: 120px;
+                
+                img {
+                    width: 100%;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
         }
+        // upload file
+        .container {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            // padding: 20px;
+
+            p {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+    
+            .upload-area {
+                width: 100%;
+                height: 200px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border: 1px dashed $purple-primary;
+                padding: 10px;
+                border-radius: 4px;
+                text-align: center;
+
+                .upload-area p {
+                    margin-bottom: 10px;
+                }
+
+                #file {
+                    display: none;
+                }
+
+                label {
+                    cursor: pointer;
+                    // display: flex;
+                    padding: 10px;
+                    border: 1px dashed $purple-primary;
+                    border-radius: 4px;
+                    // color: #fff;
+                    background-color: transparent;
+                    transition: all 0.2s ease-in-out;
+                }
+
+                label:hover {
+                    background-color: $purple-secondary;
+                }
+        
+                label span {
+                    font-size: 16px;
+                }
+            }
+
+            .preview-area {
+                width: 100%;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 200px;
+                    object-fit: cover;
+                }
+
+                .icon-close {
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    background: red;
+                    color: #fff;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }
+        }
+
     }
 
     .footer {
@@ -40,34 +127,29 @@
         display: flex;
         gap: 10px;
         justify-content: flex-start;
+        margin-top: 40px;
 
         .btn-save {
-            background: #13941e;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 8px;
-            width: 100%;
-            max-width: 100px;
-            outline: none;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;   
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 1px solid $purple-primary;
+            border-radius: 4px;
+            background-color: $purple-primary;
+            transition: all 0.2s ease-in-out;
         }
 
-        .btn-close {
-            background: transparent;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 8px;
-            width: 100%;
-            max-width: 100px;
-            outline: none;
-            border: 1px solid #d1d1d1;
-            border-radius: 8px;
-            cursor: pointer;   
+        .btn-close {  
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 1px solid $gray-secondary;
+            border-radius: 4px;
+            color: #000;
+            background-color: transparent;
+            transition: all 0.2s ease-in-out;
         }
     }
+}
+
+.error-message {
+    color: red;
 }

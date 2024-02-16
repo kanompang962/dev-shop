@@ -35,7 +35,6 @@ export class NavbarComponent implements OnInit {
 
   getUser(){
     this.user = getSession('user')
-    console.log(this.user)
   }
 
   fetchSettingsMenu(){

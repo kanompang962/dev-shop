@@ -13,10 +13,24 @@ type Product struct {
 	Img         string
 	Description string
 	Price       uint
+	Stock       uint
 	Active      bool
+	Sizes       []Size `gorm:"many2many:product_sizes;"`
 }
 
 func createProduct(db *gorm.DB, product *Product) error {
+	// var existingSize Size
+	// checkNameSize := db.Where("name = ?", size.Name).First(&existingSize)
+
+	// if checkNameSize.RowsAffected > 0 {
+	// 	db.Table("product_sizes").Create(map[string]interface{}{
+	// 		"product_id": product.ID,
+	// 		"size_id":    size.ID,
+	// 	})
+	// } else if checkNameSize.Error != nil && !errors.Is(checkNameSize.Error, gorm.ErrRecordNotFound) {
+	// 	return checkNameSize.Error
+	// }
+
 	result := db.Create(product)
 	if result.Error != nil {
 		return result.Error
@@ -27,17 +41,16 @@ func createProduct(db *gorm.DB, product *Product) error {
 
 func getProducts(db *gorm.DB) []Product {
 	var products []Product
-	// result := db.Find(&products)
-	result := db.Order("Id desc").Find(&products)
+	result := db.Order("Id desc").Preload("Sizes.SizeName").Find(&products)
 	if result.Error != nil {
-		log.Fatalf("Error finding book: %v", result.Error)
+		log.Fatalf("Error finding products: %v", result.Error)
 	}
 	return products
 }
 
 func getProduct(db *gorm.DB, id int) *Product {
 	var product Product
-	result := db.First(&product, id)
+	result := db.Preload("Sizes.SizeName").First(&product, id)
 	if result.Error != nil {
 		log.Fatalf("Error finding book: %v", result.Error)
 	}
@@ -45,9 +58,21 @@ func getProduct(db *gorm.DB, id int) *Product {
 }
 
 func updateProduct(db *gorm.DB, product *Product) error {
+	// upadet product
 	result := db.Model(&product).Updates(product)
+
 	if result.Error != nil {
 		return result.Error
+	}
+
+	var oldProduct Product
+	db.First(&oldProduct, product.ID)
+	if product.Img == "" {
+		deleteFile("uploads/images/products" + oldProduct.Img)
+		result_Img := db.Model(&Product{}).Where("id = ?", product.ID).Update("Img", product.Img)
+		if result_Img.Error != nil {
+			return result_Img.Error
+		}
 	}
 
 	return nil

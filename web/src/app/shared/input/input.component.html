@@ -2,7 +2,7 @@
     <input [type]="type" id="sharedInput" [ngModel]="inputValue" (ngModelChange)="onInputChange($event)" [placeholder]="placeholder" />
 </div> -->
 
-<div>
+<div class="input" *ngIf="type != 'area'">
     <label *ngIf="label" for="{{ name }}">{{ label }}:</label>
     <input
         [type]="type"
@@ -13,6 +13,11 @@
         (blur)="onTouched()"
         (ngModelChange)="onValueChange($event)"
       />
-      <small class="error-message">required</small>
-  </div>
+      <!-- <small class="error-message">required</small> -->
+</div>
+
+<div class="area" *ngIf="type == 'area'">
+    <label *ngIf="label" for="{{ name }}">{{ label }}:</label>
+    <textarea [name]="name" [rows]="row"  [formControl]="formControl"></textarea>
+</div>
 

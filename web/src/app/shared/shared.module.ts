@@ -4,6 +4,7 @@ import { InputComponent } from './input/input.component';
 import { SelectComponent } from './select/select.component';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { SearchComponent } from './search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -19,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatSelectModule
   ],
   exports: [
     InputComponent,

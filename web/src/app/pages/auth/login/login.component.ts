@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { setSession } from 'src/app/core/funcs/sessionService';
+import { getSession, setSession } from 'src/app/core/funcs/sessionService';
 import { AuthService } from 'src/app/services/auth.service';
 import { SweetAlertService } from 'src/app/services/sweet-alert/sweet-alert.service';
 
@@ -40,12 +40,16 @@ export class LoginComponent implements OnInit {
         if (res) {
           setSession('user', JSON.stringify(res))
           this.sweetAlertService.showAlert('Success','Login Success')
-          this.router.navigate(['/admin']);
+          const user = getSession('user');
+          if (user.token) {
+            if (user.data.RoleID === 1) {
+              this.router.navigate(['/admin']);
+            }else {
+              this.router.navigate(['/']);
+            }
+          }
         }
-      
       })
-      console.log(this.loginForm.value);
-      
     } 
   }
 }

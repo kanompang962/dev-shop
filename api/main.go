@@ -2,7 +2,9 @@ package main
 
 import (
 	// "errors"
+	"encoding/json"
 	"fmt"
+
 	// "go/token"
 	"log"
 	"os"
@@ -11,6 +13,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/google/uuid"
 
 	// "golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
@@ -58,11 +61,19 @@ func main() {
 		panic("failed to connect to database")
 	}
 
-	db.AutoMigrate(&Product{}, &User{}, &Role{})
+	db.AutoMigrate(
+		&Product{},
+		&Size{},
+		&SizeName{},
+		&User{},
+		&Role{},
+	)
 	fmt.Println("Database migration completed!")
 
 	// Setup Fiber
 	app := fiber.New()
+
+	app.Static("/uploads", "./uploads")
 
 	// Use CORS middleware with default configuration
 	app.Use(cors.New())
@@ -166,17 +177,22 @@ func main() {
 	app.Post("/user", func(c *fiber.Ctx) error {
 		user := new(User)
 		err := c.BodyParser(user)
-		// file, err := c.FormFile("Img")
-		// if file != nil {
-		// 	if err != nil {
-		// 		return c.SendStatus(fiber.StatusBadRequest)
-		// 	}
-		// 	err = c.SaveFile(file, "uploads/images/"+file.Filename)
-		// 	if err != nil {
-		// 		return c.SendStatus(fiber.StatusInternalServerError)
-		// 	}
-		// 	product.Img = file.Filename
-		// }
+		file, err := c.FormFile("Img")
+
+		if file != nil {
+			if err != nil {
+				return c.SendStatus(fiber.StatusBadRequest)
+			}
+			// Generate a random filename
+			randomFilename := generateRandomFilename(file.Filename)
+			// Save the file with the random filename
+			err = c.SaveFile(file, "uploads/images/profiles/"+randomFilename)
+
+			if err != nil {
+				return c.SendStatus(fiber.StatusInternalServerError)
+			}
+			user.Img = "/" + randomFilename
+		}
 
 		if err != nil {
 			user.Img = ""
@@ -202,6 +218,25 @@ func main() {
 		if err2 != nil {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
+
+		file, err := c.FormFile("Img")
+		if file != nil {
+			if err != nil {
+				return c.SendStatus(fiber.StatusBadRequest)
+			}
+			randomFilename := generateRandomFilename(file.Filename)
+			err = c.SaveFile(file, "uploads/images/profiles/"+randomFilename)
+
+			if err != nil {
+				return c.SendStatus(fiber.StatusInternalServerError)
+			}
+			user.Img = "/" + randomFilename
+		}
+
+		if err != nil && user.Img == "" {
+			user.Img = ""
+		}
+
 		user.ID = uint(id)
 		err3 := updateUser(db, user)
 		if err3 != nil {
@@ -244,20 +279,32 @@ func main() {
 	app.Post("/product", func(c *fiber.Ctx) error {
 		product := new(Product)
 		err := c.BodyParser(product)
-		file, err := c.FormFile("Img")
 
+		var sizes []Size
+		if c.FormValue("Sizes") != "" {
+			if err := json.Unmarshal([]byte(c.FormValue("Sizes")), &sizes); err != nil {
+				return err
+			}
+			// กำหนดค่าข้อมูล Sizes ให้กับ product
+			product.Sizes = sizes
+		}
+
+		file, err := c.FormFile("Img")
 		if file != nil {
 
 			if err != nil {
 				return c.SendStatus(fiber.StatusBadRequest)
 			}
 
-			err = c.SaveFile(file, "uploads/images/"+file.Filename)
+			// Generate a random filename
+			randomFilename := generateRandomFilename(file.Filename)
+			// Save the file with the random filename
+			err = c.SaveFile(file, "uploads/images/products/"+randomFilename)
 
 			if err != nil {
 				return c.SendStatus(fiber.StatusInternalServerError)
 			}
-			product.Img = file.Filename
+			product.Img = "/" + randomFilename
 		}
 
 		if err != nil {
@@ -284,6 +331,40 @@ func main() {
 		if err2 != nil {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
+
+		var sizes []Size
+		if c.FormValue("Sizes") != "" {
+			if err := json.Unmarshal([]byte(c.FormValue("Sizes")), &sizes); err != nil {
+				return err
+			}
+			// กำหนดค่าข้อมูล Sizes ให้กับ product
+			product.Sizes = sizes
+			for _, size := range sizes {
+				err := updateSize(db, &size)
+				if err != nil {
+					return c.SendStatus(fiber.StatusBadRequest)
+				}
+			}
+		}
+
+		file, err := c.FormFile("Img")
+		if file != nil {
+			if err != nil {
+				return c.SendStatus(fiber.StatusBadRequest)
+			}
+			randomFilename := generateRandomFilename(file.Filename)
+			err = c.SaveFile(file, "uploads/images/products/"+randomFilename)
+
+			if err != nil {
+				return c.SendStatus(fiber.StatusInternalServerError)
+			}
+			product.Img = "/" + randomFilename
+		}
+
+		if err != nil && product.Img == "" {
+			product.Img = ""
+		}
+
 		product.ID = uint(id)
 		err3 := updateProduct(db, product)
 		if err3 != nil {
@@ -308,19 +389,27 @@ func main() {
 			"message": "success",
 		})
 	})
-	// app.Post("/upload", func(c *fiber.Ctx) error {
-	// 	file, err := c.FormFile("file")
-	// 	if err != nil {
-	// 		return c.SendStatus(fiber.StatusBadRequest)
-	// 	}
-	// 	err = c.SaveFile(file, "uploads/images/"+file.Filename)
-	// 	if err != nil {
-	// 		return c.SendStatus(fiber.StatusInternalServerError)
-	// 	}
-	// 	return c.JSON(fiber.Map{
-	// 		"message": "File uploaded successfully",
-	// 	})
-	// })
+
+	//:::::::::::::::::::::: Role ::::::::::::::::::::::\\
+	app.Put("/size/:id", func(c *fiber.Ctx) error {
+		id, err1 := strconv.Atoi(c.Params("id"))
+		if err1 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		size := new(Size)
+		err2 := c.BodyParser(size)
+		if err2 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		size.ID = uint(id)
+		err3 := updateSize(db, size)
+		if err3 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
 
 	//:::::::::::::::::::::: Role ::::::::::::::::::::::\\
 	app.Get("/roles", func(c *fiber.Ctx) error {
@@ -350,6 +439,79 @@ func main() {
 		})
 	})
 
+	//:::::::::::::::::::::: Size ::::::::::::::::::::::\\
+	app.Get("/sizes", func(c *fiber.Ctx) error {
+		return c.JSON(getSizes(db))
+	})
+
+	app.Get("/sizes_name", func(c *fiber.Ctx) error {
+		return c.JSON(getSizesName(db))
+	})
+
+	app.Post("/size", func(c *fiber.Ctx) error {
+		size := new(Size)
+		err := c.BodyParser(size)
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		err2 := createSize(db, size)
+		if err2 != nil {
+			if err2.Error() == "Name already taken" {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"message": "Name already taken",
+				})
+			}
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
+	app.Post("/size_name", func(c *fiber.Ctx) error {
+		sizeName := new(SizeName)
+		err := c.BodyParser(sizeName)
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		err2 := createSizeName(db, sizeName)
+		if err2 != nil {
+			if err2.Error() == "Name already taken" {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"message": "Name already taken",
+				})
+			}
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
+	app.Put("/size/:id", func(c *fiber.Ctx) error {
+		id, err1 := strconv.Atoi(c.Params("id"))
+		if err1 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		size := new(Size)
+		err2 := c.BodyParser(size)
+		if err2 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		size.ID = uint(id)
+		err3 := updateSize(db, size)
+		if err3 != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+		return c.JSON(fiber.Map{
+			"message": "success",
+		})
+	})
+
 	//:::::::::::::::::::::: Utility ::::::::::::::::::::::\\
 	app.Get("/unit", func(c *fiber.Ctx) error {
 		countUser := getUnitUsers(db)
@@ -366,4 +528,10 @@ func main() {
 
 	app.Listen(":8080")
 
+}
+
+func generateRandomFilename(originalFilename string) string {
+	// Use a combination of timestamp and UUID to generate a unique filename
+	randomString := uuid.New().String()
+	return randomString + "_" + originalFilename
 }

@@ -10,6 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SweetAlertService } from 'src/app/services/sweet-alert/sweet-alert.service';
 import { UpdateComponent } from './update/update.component';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -28,14 +29,11 @@ export class ProductComponent implements OnInit {
     public sweetAlertService: SweetAlertService
   ) {}
 
-  displayedColumns: string[] = [ 'Name', 'CreatedAt', 'Description', 'Price', 'Management'];
+  displayedColumns: string[] = [ 'Name', 'Img', 'Price', 'Stock', 'Active', 'Management'];
   dataSource:any;
   products:Product[] = []
-  option = [
-    {value:1, label:'a'},
-    {value:2, label:'b'},
-    {value:3, label:'c'},
-  ]
+  apiUrl = environment.apiUrl;
+  imageUrl = environment.imageUrl;
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -66,7 +64,7 @@ export class ProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.sweetAlertService.showAlert('Success','Your submission has been received','success')
+        this.sweetAlertService.showSuccess();
         this.fetchProducts();
       }
     });
@@ -80,17 +78,17 @@ export class ProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.sweetAlertService.showAlert('Success','Update Product Success')
+        this.sweetAlertService.showSuccess();
         this.fetchProducts();
       }
     });
   }
 
   deleteDialog(id:number): void {
-    this.sweetAlertService.showConfirm('Deleted Product','Are you sure you want to delete item ?').then((result)=>{
+    this.sweetAlertService.showConfirmDelete().then((result)=>{
       if (result.isConfirmed) {
         this.productService.deleteProduct(id).subscribe((res)=>{
-          this.sweetAlertService.showAlert('Success','Your submission has been received','success').then((result)=>{
+          this.sweetAlertService.showSuccess().then((result)=>{
             this.fetchProducts();
           })
         })

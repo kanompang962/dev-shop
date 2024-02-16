@@ -8,6 +8,8 @@ import { User } from 'src/app/core/models/user.model';
 import { SweetAlertService } from 'src/app/services/sweet-alert/sweet-alert.service';
 import { UsersService } from 'src/app/services/users.service';
 import { CreateComponent } from './create/create.component';
+import { environment } from 'src/environments/environment';
+import { UpdateComponent } from './update/update.component';
 
 @Component({
   selector: 'app-user',
@@ -25,18 +27,14 @@ export class UserComponent implements OnInit {
     public sweetAlertService: SweetAlertService
   ) {}
 
-  displayedColumns: string[] = ['FirstName', 'LastName','Username','Role', 'Active', 'Management'];
+  displayedColumns: string[] = ['No', 'Img', 'FirstName', 'LastName','Username','Role', 'Active', 'Management'];
   dataSource:any;
   users: User[] = []
-  option = [
-    {value:1, label:'a'},
-    {value:2, label:'b'},
-    {value:3, label:'c'},
-  ]
   keywords = ''
+  apiUrl = environment.apiUrl;
+  avatarUrl = environment.avatarUrl;
 
   ngOnInit(): void {
-    this.createDialog()
     this.fetchUsers();
   }
 
@@ -58,25 +56,37 @@ export class UserComponent implements OnInit {
   }
 
   createDialog(): void {
-    const dialogRef = this.dialog.open(CreateComponent, {
-      // width: '250px',
-      data: { title: 'Dialog Title', message: 'Hello from the dialog!' },
-    });
-
+    const dialogRef = this.dialog.open(CreateComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.sweetAlertService.showAlert('Success','Your submission has been received','success')
+        this.sweetAlertService.showSuccess();
         this.fetchUsers();
       }
     });
   }
 
   updateDialog(id:number): void {
-    
+    const dialogRef = this.dialog.open(UpdateComponent, {
+      data: { id: id},
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.sweetAlertService.showSuccess();
+        this.fetchUsers();
+      }
+    });
   }
 
   deleteDialog(id:number): void {
-
+    this.sweetAlertService.showConfirmDelete().then((result)=>{
+      if (result.isConfirmed) {
+        this.usersService.deleteUser(id).subscribe((res)=>{
+          this.sweetAlertService.showSuccess().then((result)=>{
+            this.fetchUsers();
+          })
+        })
+      }
+    })
   }
 
   handleSearchChange(value: string): void {

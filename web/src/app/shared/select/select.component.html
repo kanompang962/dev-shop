@@ -1,8 +1,17 @@
-<!-- shared-select.component.html -->
 
 <div class="group-input-select">
-    <select [(ngModel)]="selectedValue" (change)="onSelectionChange()">
+    <!-- <select [(ngModel)]="selectedValue" (change)="onSelectionChange()">
         <option value="0" disabled selected>{{placehoder}}</option>
         <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
-    </select>
+    </select> -->
+
+<!-- <mat-select [placeholder]="placeholder" [formControl]="formControl">
+    <mat-option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </mat-option>
+  </mat-select> -->
+  <select [formControl]="formControl">
+    <option value="null" disabled selected>{{placeholder}}</option>
+    <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+</select>
 </div>
